@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WhatsApp Unban Tool</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(135deg, #0d1421 0%, #1a252f 100%);
+        color: #ffffff;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 600px;
+        width: 100%;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        background: linear-gradient(45deg, #25d366, #128c7e);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: #e0e0e0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      select,
+      input {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      select:focus,
+      input:focus {
+        outline: none;
+        border-color: #25d366;
+        box-shadow: 0 0 20px rgba(37, 211, 102, 0.3);
+      }
+
+      select option {
+        background: #1a252f;
+        color: #ffffff;
+        padding: 10px;
+      }
+
+      input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .divider {
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #25d366, transparent);
+        margin: 30px 0;
+        border-radius: 1px;
+      }
+
+      .send-button {
+        width: 100%;
+        padding: 18px;
+        background: linear-gradient(45deg, #25d366, #128c7e);
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+      }
+
+      .send-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+      }
+
+      .send-button:active {
+        transform: translateY(0);
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .footer p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+      }
+
+      .whatsapp-link {
+        color: #25d366;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+      }
+
+      .whatsapp-link:hover {
+        color: #128c7e;
+      }
+
+      .prompt-info {
+        background: rgba(37, 211, 102, 0.1);
+        border: 1px solid rgba(37, 211, 102, 0.3);
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 20px;
+      }
+
+      .modal {
+        background: linear-gradient(135deg, #1a252f 0%, #0d1421 100%);
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 500px;
+        width: 100%;
+        border: 2px solid rgba(37, 211, 102, 0.3);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        animation: modalSlideIn 0.3s ease-out;
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .modal h2 {
+        color: #25d366;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .modal p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 25px;
+        text-align: left;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .modal-button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        flex: 1;
+        min-width: 120px;
+      }
+
+      .btn-telegram {
+        background: linear-gradient(45deg, #0088cc, #005580);
+        color: white;
+      }
+
+      .btn-telegram:hover {
+        background: linear-gradient(45deg, #005580, #003344);
+        transform: translateY(-2px);
+      }
+
+      .btn-whatsapp {
+        background: linear-gradient(45deg, #25d366, #128c7e);
+        color: white;
+      }
+
+      .btn-whatsapp:hover {
+        background: linear-gradient(45deg, #128c7e, #0d5d52);
+        transform: translateY(-2px);
+      }
+
+      .btn-cancel {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .btn-cancel:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        .modal {
+          padding: 20px;
+        }
+
+        .modal h2 {
+          font-size: 1.5rem;
+        }
+
+        .modal-buttons {
+          flex-direction: column;
+        }
+
+        .modal-button {
+          min-width: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Welcome Modal -->
+    <div class="modal-overlay" id="welcomeModal">
+      <div class="modal">
+        <h2>Welcome to WhatsApp Unban Tool</h2>
+        <p>
+          This tool helps you compose professional appeals that are more likely
+          to get a positive response from WhatsApp support team.
+        </p>
+        <div class="modal-buttons">
+          <button class="modal-button btn-telegram" onclick="joinTelegram()">
+            Join Telegram
+          </button>
+          <button class="modal-button btn-whatsapp" onclick="joinWhatsApp()">
+            Join WhatsApp
+          </button>
+          <button class="modal-button btn-cancel" onclick="closeModal()">
+            Continue
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1>𝚆𝚑𝚊𝚝𝚜𝙰𝚙𝚙 𝚄𝚗𝚋𝚊𝚗 𝚃𝚘𝚘𝚕</h1>
+
+      <div class="form-group">
+        <label for="banType">Select Appeal Type:</label>
+        <select id="banType">
+          <option value="permanent">Permanent Unban Appeal</option>
+          <option value="normal">Normal Unban Appeal</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Enter Your Banned Phone Number:</label>
+        <input
+          type="tel"
+          id="phoneNumber"
+          placeholder="e.g., +1234567890"
+          required
+        />
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="form-group">
+        <label for="promptSelect">Select Appeal Template:</label>
+        <select id="promptSelect" onchange="showPromptInfo()">
+          <option value="0">Prompt 1: Standard Unban Request</option>
+          <option value="1">Prompt 2: Mistaken Ban Appeal</option>
+          <option value="2">Prompt 3: Policy Compliance Promise</option>
+          <option value="3">Prompt 4: Account Review Request</option>
+          <option value="4">Prompt 5: Terms Violation Appeal</option>
+          <option value="5">Prompt 6: Final Chance Request</option>
+        </select>
+        <div class="prompt-info" id="promptInfo">
+          This template provides a professional standard appeal format to
+          WhatsApp support.
+        </div>
+      </div>
+
+      <button class="send-button" onclick="sendAppeal()">
+        Send Appeal Request
+      </button>
+
+      <div class="footer">
+        <p>XTECH | PRIME TECH | © 2025 | Secure & Private</p>
+        <a class="whatsapp-link" href="#" onclick="openHelp()"
+          >Need Help? Contact Support</a
+        >
+      </div>
+    </div>
+
+    <script>
+      const promptTemplates = [
+        {
+          subject: "WhatsApp Account Appeal - Standard Unban Request",
+          body: `Dear WhatsApp Support Team,
+
+I am writing to formally request the review and restoration of my WhatsApp account associated with phone number: [PHONE_NUMBER].
+
+My account was recently suspended, and I believe this may have been due to a misunderstanding or technical error. I have been a loyal WhatsApp user and have always strived to follow the platform's terms of service and community guidelines.
+
+Account Details:
+- Phone Number: [PHONE_NUMBER]
+- Ban Type: [BAN_TYPE]
+- Approximate Ban Date: [Please specify if known]
+
+I kindly request that you review my account status and consider restoring my access. I am committed to maintaining compliance with all WhatsApp policies going forward.
+
+Thank you for your time and consideration. I look forward to your response.
+
+Best regards,
+[Your Name]`,
+          info: "This template provides a professional standard appeal format to WhatsApp support.",
+        },
+        {
+          subject: "WhatsApp Account Appeal - Mistaken Ban Review",
+          body: `Dear WhatsApp Support Team,
+
+I am contacting you regarding what I believe to be a mistaken ban on my WhatsApp account linked to phone number: [PHONE_NUMBER].
+
+I believe my account was banned in error, as I have not violated any of WhatsApp's terms of service or community guidelines. I use WhatsApp primarily for personal communication with family and friends, and I am careful to follow all platform rules.
+
+Account Information:
+- Phone Number: [PHONE_NUMBER]
+- Ban Type: [BAN_TYPE]
+- I have not engaged in spam, harassment, or any prohibited activities
+
+I respectfully request that you review my account and the circumstances that led to this ban. I am confident that upon investigation, you will find that this was indeed a mistake.
+
+I would greatly appreciate the restoration of my account, as WhatsApp is an essential communication tool for me to stay connected with my loved ones.
+
+Thank you for your understanding and assistance.
+
+Sincerely,
+[Your Name]`,
+          info: "Use this template if you believe your ban was issued by mistake or error.",
+        },
+        {
+          subject: "WhatsApp Account Appeal - Policy Compliance Commitment",
+          body: `Dear WhatsApp Support Team,
+
+I am writing to appeal the ban on my WhatsApp account (phone number: [PHONE_NUMBER]) and to demonstrate my commitment to full compliance with WhatsApp's policies.
+
+I acknowledge that my account was suspended, and I want to take this opportunity to reaffirm my understanding of and commitment to WhatsApp's terms of service and community guidelines.
+
+My Commitment:
+- Phone Number: [PHONE_NUMBER]
+- Ban Type: [BAN_TYPE]
+- I commit to strictly following all WhatsApp policies
+- I will not engage in any prohibited activities
+- I will report any suspicious or inappropriate content I encounter
+- I will use WhatsApp solely for legitimate communication purposes
+
+I have taken time to thoroughly review WhatsApp's terms of service and community guidelines to ensure I fully understand what is expected of users. I am committed to being a responsible member of the WhatsApp community.
+
+I kindly request that you consider giving me another opportunity to use WhatsApp while adhering to all platform rules.
+
+Thank you for your consideration.
+
+Respectfully,
+[Your Name]`,
+          info: "This template emphasizes your commitment to following WhatsApp's policies going forward.",
+        },
+        {
+          subject: "WhatsApp Account Review Request - Ban Appeal",
+          body: `Dear WhatsApp Review Team,
+
+I am formally requesting a comprehensive review of the ban placed on my WhatsApp account associated with phone number: [PHONE_NUMBER].
+
+I would like to request a thorough review of my account activity and the circumstances that led to the suspension. I believe that a detailed examination of my usage patterns and communication history will demonstrate that I have been using the platform appropriately.
+
+Review Request Details:
+- Phone Number: [PHONE_NUMBER]
+- Ban Type: [BAN_TYPE]
+- Request for: Complete account activity review
+- Willing to provide: Any additional information you may require
+
+I am confident that a fair and thorough review will show that my account should be restored. I have always used WhatsApp for legitimate communication purposes and have not engaged in any activities that would violate the platform's terms.
+
+I am prepared to cooperate fully with any additional verification processes you may require and am committed to maintaining strict compliance with all WhatsApp policies.
+
+I appreciate your time and look forward to a positive resolution.
+
+Thank you,
+[Your Name]`,
+          info: "This template requests a comprehensive review of your account and ban circumstances.",
+        },
+        {
+          subject:
+            "WhatsApp Terms Violation Appeal - Account Restoration Request",
+          body: `Dear WhatsApp Appeals Team,
+
+I am writing to appeal the suspension of my WhatsApp account (phone number: [PHONE_NUMBER]) and to address any potential terms violations that may have occurred.
+
+If my account was suspended due to a terms violation, I want to acknowledge this and demonstrate my understanding of proper WhatsApp usage. I have since educated myself thoroughly on the platform's guidelines and am committed to full compliance.
+
+Appeal Details:
+- Phone Number: [PHONE_NUMBER]
+- Ban Type: [BAN_TYPE]
+- I acknowledge the importance of following all platform rules
+- I have reviewed and now fully understand WhatsApp's terms of service
+- I commit to using WhatsApp only for appropriate communication
+
+I understand the importance of maintaining a safe and respectful environment for all WhatsApp users. If I inadvertently violated any terms, I sincerely apologize and assure you that such incidents will not occur again.
+
+I am requesting a second chance to demonstrate that I can be a responsible and compliant user of the WhatsApp platform.
+
+Thank you for considering my appeal.
+
+Sincerely,
+[Your Name]`,
+          info: "Use this template if you acknowledge a potential violation and want to demonstrate change.",
+        },
+        {
+          subject: "WhatsApp Final Appeal - Last Chance Request",
+          body: `Dear WhatsApp Support Leadership,
+
+I am submitting this final appeal for the restoration of my WhatsApp account associated with phone number: [PHONE_NUMBER].
+
+I understand the severity of account suspensions and the importance of maintaining platform integrity. This is my sincere and final request for consideration of my account restoration.
+
+Final Appeal Details:
+- Phone Number: [PHONE_NUMBER]
+- Ban Type: [BAN_TYPE]
+- This is my final appeal submission
+- I have thoroughly reviewed all WhatsApp policies
+- I am fully committed to exemplary platform behavior
+
+I want to emphasize my genuine need for WhatsApp access, as it is my primary means of communication with family, friends, and essential services. The loss of my account has significantly impacted my ability to stay connected with important people in my life.
+
+I solemnly promise that if given this final opportunity, I will:
+- Strictly adhere to all WhatsApp terms and guidelines
+- Use the platform only for legitimate communication
+- Report any inappropriate content I encounter
+- Be an exemplary member of the WhatsApp community
+
+I humbly request your consideration of this final appeal and would be deeply grateful for another chance.
+
+Thank you for your time and consideration.
+
+Most respectfully,
+[Your Name]`,
+          info: "This is a comprehensive final appeal template for serious consideration.",
+        },
+      ];
+
+      function showPromptInfo() {
+        const select = document.getElementById("promptSelect");
+        const info = document.getElementById("promptInfo");
+        const selectedPrompt = promptTemplates[select.value];
+        info.textContent = selectedPrompt.info;
+      }
+
+      function sendAppeal() {
+        const phoneNumber = document.getElementById("phoneNumber").value.trim();
+        const banType = document.getElementById("banType").value;
+        const promptIndex = document.getElementById("promptSelect").value;
+
+        if (!phoneNumber) {
+          alert("Please enter your phone number before sending the appeal.");
+          return;
+        }
+
+        const selectedPrompt = promptTemplates[promptIndex];
+        const banTypeText =
+          banType === "permanent" ? "Permanent Ban" : "Normal Ban";
+
+        // Replace placeholders in the email body
+        let emailBody = selectedPrompt.body
+          .replace(/\[PHONE_NUMBER\]/g, phoneNumber)
+          .replace(/\[BAN_TYPE\]/g, banTypeText);
+
+        // Try to open Gmail app using mailto protocol
+        const mailtoUrl = `mailto:support@support.whatsapp.com?subject=${encodeURIComponent(
+          selectedPrompt.subject
+        )}&body=${encodeURIComponent(emailBody)}`;
+
+        // Fallback to Gmail web if not on mobile or app not installed
+        // Try mailto first
+        window.location.href = mailtoUrl;
+
+        // Optionally, fallback after a delay (uncomment if you want fallback)
+        // setTimeout(() => {
+        //   const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=support@support.whatsapp.com&su=${encodeURIComponent(
+        //     selectedPrompt.subject
+        //   )}&body=${encodeURIComponent(emailBody)}`;
+        //   window.open(gmailUrl, "_blank");
+        // }, 1000);
+      }
+
+      function openHelp() {
+        alert(
+          "For additional help:\n\n1. Make sure your phone number is correctly formatted\n2. Choose the most appropriate template for your situation\n3. The tool will open Gmail with your appeal pre-written\n4. You can edit the message before sending\n5. Be honest and professional in your appeal"
+        );
+      }
+
+      // Modal functions
+      function closeModal() {
+        document.getElementById("welcomeModal").classList.add("hidden");
+      }
+
+      function joinTelegram() {
+        // Replace with your actual Telegram link
+        window.open("https://t.me/HACKLODGES", "_blank");
+        closeModal();
+      }
+
+      function joinWhatsApp() {
+        // Replace with your actual WhatsApp channel link
+        window.open(
+          "https://whatsapp.com/channel/0029VbC96FuKwqSaQk33iz3N",
+          "_blank"
+        );
+        closeModal();
+      }
+
+      // Initialize prompt info on page load
+      showPromptInfo();
+    </script>
+  </body>
+</html>
+
+l>
